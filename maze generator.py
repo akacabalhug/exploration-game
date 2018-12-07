@@ -40,7 +40,7 @@ class Cell(object):
         self.scaledX = col * cellSize
         self.scaledY = row * cellSize
         self.walls = [True, True, True, True]
-        self.wall = True
+        
         self.visited = False
         self.current = False
         self.neighbors = []
@@ -69,20 +69,17 @@ class Cell(object):
         self.bottom = mazeGrid[ index( self.xCor, self.yCor + 1 ) ]
         self.left = mazeGrid[ index( self.xCor - 1, self.yCor ) ]
 
-        if self.top != 0 and self.top.visited == False and self.top.wall == True:
+        if self.top != 0 and self.top.visited == False:
             self.neighbors.append(self.top)
-        if self.right != 0 and self.right.visited == False and self.right.wall == True:
+        if self.right != 0 and self.right.visited == False:
             self.neighbors.append(self.right)
-        if self.bottom != 0 and self.bottom.visited == False and self.bottom.wall == True:
+        if self.bottom != 0 and self.bottom.visited == False:
             self.neighbors.append(self.bottom)
-        if self.left != 0 and self.left.visited == False and self.left.wall == True:
+        if self.left != 0 and self.left.visited == False:
             self.neighbors.append(self.left)
 
         if len(self.neighbors) > 0:
             self.nextCell = random.choice(self.neighbors)
-            self.neighbors.remove(self.nextCell)
-            for cell in self.neighbors:
-                cell.wall = True
             return self.nextCell
         else:
             return None
@@ -143,7 +140,8 @@ while True:
     nextCell = currentCell.checkNeighbors()
     
     if nextCell:
-        nextCell.visited = True
+        currentCell.neighbors = []
+        
         stack.append(currentCell)
         
         nextCell.removeWalls(currentCell, nextCell)
@@ -159,6 +157,10 @@ while True:
         if event.type == QUIT:
             p.quit()
             sys.exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                p.quit()
+                sys.exit()
 
     p.display.update()
 

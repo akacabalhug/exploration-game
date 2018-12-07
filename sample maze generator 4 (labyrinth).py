@@ -1,27 +1,3 @@
-"""
-Labyrinth generator v. 1.1b
-
-Coded by Kuba Siekierzynski (c) 2017
-
-The script uses recursive backtracking algorithm.
-Based on Jamis Buck's code for Ruby.
-http://weblog.jamisbuck.org/2010/12/27/maze-generation-recursive-backtracking
-
-Added in v. 1.1b:
-- max recursion depth adjustment
-- changed the dig start to half the lab size (formerly biased towards less complicated path in the beginning)
-
-Check out also the Labyrinth v. 2.0 for a more roguelike experience ;)
-
-I made a 3D version, too. It won't run on Sololearn, though.
-For everyone interested, here's the link to the packed executable:
-http://bit.ly/2kHQTqw
-(Windows 64-bit required)
-
-Have fun!
-
-"""
-
 import random
 import sys
 
@@ -61,41 +37,45 @@ def dig(x, y):
             # if so, apply info on passages to both cells
             dig(new_x, new_y)
             # repeat recursively
-    
-def check():
-    # displays the cells' values for check-up
-    for i in range(SIZE[1]):
-        for j in range(SIZE[0]):
-            print(" "*(1-(lab[i][j]//10))+\
-            str(lab[i][j]), end='|')
-        print ('')
 
 def draw():
     # displays the labyrinth
     print("3D version: instagram.com/p/BQszVwBhoYT")
     print ("\nLabyrinth of Kuba #" + str(seed) + " (" + str(SIZE[0])+"x"+str(SIZE[1])+")")
     # prints the seed (for reference) and the lab size
-    print("_" * (SIZE[0] * 2))
+    mazefh = open("maze.txt", "w+")
+    #print("_" * (SIZE[0] * 2))
+    mazefh.write("_" * (SIZE[0] * 2))
+    mazefh.write("\n")
     for j in range(SIZE[1]):
         if j!=0:
-            print("|", end='')
+            #print("|", end='')
+            mazefh.write("|")
         else:
-            print ("_", end='')
+            #print ("_", end='')
+            mazefh.write("_")
         for i in range(SIZE[0]):
             if (lab[j][i] & S != 0):
-                print(" ", end='')
+                #print(" ", end='')
+                mazefh.write(" ")
             else:
-                print("_", end='')
+                #print("_", end='')
+                mazefh.write("_")
             if (lab[j][i] & E != 0):
                 if ((lab[j][i] | lab[j][i+1]) & S != 0):
-                    print(" ", end='')
+                    #print(" ", end='')
+                    mazefh.write(" ")
                 else:
-                    print("_", end='')
+                    #print("_", end='')
+                    mazefh.write("_")
             elif (j==SIZE[1]-1) & (i==SIZE[0]-1):
-                print("_", end='')
+                #print("_", end='')
+                mazefh.write("_")
             else:
-                print("|", end='')
-        print("")
+                #print("|", end='')
+                mazefh.write("|")
+        #print("")
+        mazefh.write("\n")
     print("Try 'Labyrinth 2.0' for roguelike xp! ;)")
 
 # Let's start!

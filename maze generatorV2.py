@@ -114,7 +114,7 @@ for row in range(rowNum):
 
     currentCell = mazeGrid[0]
 
-while doneNa == False:
+while True:
     # fpsClock.tick(60)
 
     visitCount = 0
